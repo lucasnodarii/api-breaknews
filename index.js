@@ -1,9 +1,8 @@
 import express from "express";
+import userRouter from "./src/routes/user.route.js"
+
 const app = express();
 
-app.get('/', (req, res) => {
-    const soma = 1 + 2;
-    res.send({soma});
-});
+app.use('/', userRouter);
 
 app.listen(3000);
