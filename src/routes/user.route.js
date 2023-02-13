@@ -3,7 +3,7 @@ import userController from "../controllers/user.controller.js"
 
 const router = express.Router();
 
-router.get('/soma', userController.soma);
+router.post('/', userController.createUser);
 
 
 export default router;
