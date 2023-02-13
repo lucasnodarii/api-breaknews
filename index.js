@@ -2,7 +2,8 @@ import express from "express";
 const app = express();
 
 app.get('/', (req, res) => {
-    res.send("Hello world")
+    const soma = 1 + 2;
+    res.send({soma});
 });
 
 app.listen(3000);
