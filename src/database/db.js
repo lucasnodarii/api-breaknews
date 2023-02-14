@@ -5,6 +5,7 @@ dotenv.config();
 const dbUser = process.env.DB_USER;
 const dbPass = process.env.DB_PASS;
 
+
 const connectDatabase = async () => {
   console.log("Waiting connection with database");
   mongoose.set('strictQuery', true);

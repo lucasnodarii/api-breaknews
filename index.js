@@ -5,12 +5,12 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 connectDatabase();
 app.use(express.json());
 app.use("/user", userRouter);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port: ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server running on port: ${port}`);
 });
