@@ -1,4 +1,5 @@
 import userServices from "../services/user.service.js";
+import mongoose from "mongoose";
 
 const userController = {
   createUser: async function (req, res) {
@@ -12,7 +13,7 @@ const userController = {
 
     if (!createdUser) {
       return res.status(400).send({ message: "Error creating user" });
-    };
+    }
 
     res.status(201).send({
       message: "User created successfully",
@@ -25,6 +26,30 @@ const userController = {
         background,
       },
     });
+  },
+  findAll: async function (req, res) {
+    const users = await userServices.findAll();
+
+    if (users.length === 0) {
+      return res.status(400).send({ message: "There are no registered users" });
+    }
+
+    res.send(users);
+  },
+  findById: async function (req, res) {
+    const id = req.params.id;
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+      return res.status(400).send({message: "Invalid Id"});
+    }
+
+    const user = await userServices.findById(id);
+
+    if (!user) {
+      return res.status(400).send({ message: "User not found" });
+    }
+
+    res.send(user);
   },
 };
 
