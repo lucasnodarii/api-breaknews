@@ -27,6 +27,7 @@ const userController = {
       },
     });
   },
+
   findAll: async function (req, res) {
     const users = await userServices.findAllService();
 
@@ -36,36 +37,19 @@ const userController = {
 
     res.send(users);
   },
+
   findById: async function (req, res) {
-    const id = req.params.id;
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).send({ message: "Invalid Id" });
-    }
-
-    const user = await userServices.findByIdService(id);
-
-    if (!user) {
-      return res.status(400).send({ message: "User not found" });
-    }
-
+    const user = req.user;
     res.send(user);
   },
+
   updateById: async function (req, res) {
     const { name, username, email, password, avatar, background } = req.body;
     if (!name && !username && !email && !password && !avatar && !background) {
       res.status(400).send({ message: "Submit at least one field for update" });
     }
 
-    const id = req.params.id;
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).send({ message: "Invalid Id" });
-    }
-
-    const user = await userServices.findByIdService(id);
-    if (!user) {
-      return res.status(400).send({ message: "User not found" });
-    }
+    const {id, user} = req;
 
     await userServices.updateByIdService(
       id,
@@ -76,7 +60,7 @@ const userController = {
       avatar,
       background
     );
-    res.send({message: "User successfully updated"})
+    res.send({ message: "User successfully updated" });
   },
 };
 
