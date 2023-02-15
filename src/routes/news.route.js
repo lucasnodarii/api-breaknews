@@ -1,9 +1,10 @@
 import express from "express";
 import newsController from "../controllers/news.controller.js";
+import authMiddleware from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
-router.post("/", newsController.createNew);
+router.post("/", authMiddleware.validateToken, newsController.createNew);
 router.get("/", newsController.findAllNews);
 
 export default router;

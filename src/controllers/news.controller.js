@@ -13,7 +13,7 @@ const newsController = {
         title,
         text,
         banner,
-        user: "63ec08e80be751bda6489590",
+        user: req.userId
       });
 
       res.status(201).send("New created");
