@@ -216,6 +216,7 @@ const newsController = {
       res.send({ message: "Post successfully deleted" });
     } catch (error) {
       res.status(500).send({ message: error.message });
+      
     }
   },
 };
