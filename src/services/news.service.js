@@ -12,7 +12,9 @@ const newsServices = {
   },
   topNewsService: function(){
     return News.findOne().sort({_id: -1}).populate('user');
-
+  },
+  findByIdService: function(id){
+    return News.findById(id).populate('user');
   }
 };
 

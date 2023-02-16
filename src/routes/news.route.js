@@ -7,5 +7,6 @@ const router = express.Router();
 router.post("/", authMiddleware.validateToken, newsController.createNew);
 router.get("/", newsController.findAllNews);
 router.get("/top", newsController.topNews);
+router.get("/:id", newsController.findById);
 
 export default router;

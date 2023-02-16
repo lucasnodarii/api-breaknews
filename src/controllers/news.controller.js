@@ -98,8 +98,31 @@ const newsController = {
           name: news.user.name,
           username: news.user.username,
           avatar: news.user.avatar,
-        }
-      })
+        },
+      });
+    } catch (error) {
+      res.status(500).send({ message: error.message });
+    }
+  },
+  findById: async function (req, res) {
+    try {
+      const { id } = req.params;
+
+      const news = await newsServices.findByIdService(id);
+
+      res.send({
+        news: {
+          id: news._id,
+          title: news.title,
+          text: news.text,
+          banner: news.banner,
+          likes: news.likes,
+          comments: news.comments,
+          name: news.user.name,
+          username: news.user.username,
+          avatar: news.user.avatar,
+        },
+      });
     } catch (error) {
       res.status(500).send({ message: error.message });
     }
