@@ -152,6 +152,28 @@ const newsController = {
       res.status(500).send({ message: error.message });
     }
   },
+  findByUser: async function (req, res) {
+    try {
+      const id = req.userId;
+      const news = await newsServices.findByUserService(id);
+
+      res.send({
+        results: news.map((item) => ({
+          id: item._id,
+          title: item.title,
+          text: item.text,
+          banner: item.banner,
+          likes: item.likes,
+          comments: item.comments,
+          name: item.user.name,
+          username: item.user.username,
+          avatar: item.user.avatar,
+        })),
+      });
+    } catch (error) {
+      res.status(500).send({ message: error.message });
+    }
+  },
 };
 
 export default newsController;

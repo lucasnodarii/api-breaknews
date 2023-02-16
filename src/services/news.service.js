@@ -18,6 +18,9 @@ const newsServices = {
   },
   findByTitleService: function(title){
     return News.find({title: {$regex: `${title || ""}`, $options: "i"}}).sort({_id: -1}).populate('user'); 
+  },
+  findByUserService: function(id){
+    return News.find({user: id}).sort({_id: -1}).populate('user');
   }
 };
 

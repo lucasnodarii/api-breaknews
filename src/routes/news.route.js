@@ -8,6 +8,7 @@ router.post("/", authMiddleware.validateToken, newsController.createNew);
 router.get("/", newsController.findAllNews);
 router.get("/top", newsController.topNews);
 router.get("/search", newsController.findByTitle);
+router.get("/byUser", authMiddleware.validateToken, newsController.findByUser);
 router.get("/:id", authMiddleware.validateToken, newsController.findById);
 
 export default router;
