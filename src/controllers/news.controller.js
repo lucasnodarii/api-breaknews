@@ -174,6 +174,32 @@ const newsController = {
       res.status(500).send({ message: error.message });
     }
   },
+  updateNews: async function (req, res) {
+    try {
+      const { title, text, banner } = req.body;
+      const { id } = req.params;
+
+      if (!title && !text && !banner) {
+        res
+          .status(400)
+          .send({ message: "Submit at least one field for update" });
+      }
+
+      const news = await newsServices.findByIdService(id);
+
+      if (news.user._id != req.userId) {
+        return res
+          .status(400)
+          .send({ message: "You don't have permition to update this post" });
+      }
+
+      await newsServices.updateNewsService(id, title, text, banner);
+
+      res.send({ message: "Post successfully updated" });
+    } catch (error) {
+      res.status(500).send({ message: error.message });
+    }
+  },
 };
 
 export default newsController;

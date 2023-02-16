@@ -21,6 +21,9 @@ const newsServices = {
   },
   findByUserService: function(id){
     return News.find({user: id}).sort({_id: -1}).populate('user');
+  },
+  updateNewsService: function(id, title, text, banner){
+    return News.findOneAndUpdate({_id: id}, {title, text, banner}, {rawResult: true});
   }
 };
 
