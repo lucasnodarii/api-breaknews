@@ -24,6 +24,9 @@ const newsServices = {
   },
   updateNewsService: function(id, title, text, banner){
     return News.findOneAndUpdate({_id: id}, {title, text, banner}, {rawResult: true});
+  },
+  deleteNewsService: function(id){
+    return News.findByIdAndDelete({_id: id});
   }
 };
 

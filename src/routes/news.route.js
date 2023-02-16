@@ -11,5 +11,6 @@ router.get("/search", newsController.findByTitle);
 router.get("/byUser", authMiddleware.validateToken, newsController.findByUser);
 router.get("/:id", authMiddleware.validateToken, newsController.findById);
 router.patch("/:id", authMiddleware.validateToken, newsController.updateNews);
+router.delete("/:id", authMiddleware.validateToken, newsController.deleteNews)
 
 export default router;

@@ -200,6 +200,24 @@ const newsController = {
       res.status(500).send({ message: error.message });
     }
   },
+  deleteNews: async function (req, res) {
+    try {
+      const { id } = req.params;
+      const news = await newsServices.findByIdService(id);
+
+      if (news.user._id != req.userId) {
+        return res
+          .status(400)
+          .send({ message: "You don't have permition to delete this post" });
+      }
+
+      await newsServices.deleteNewsService(id);
+
+      res.send({ message: "Post successfully deleted" });
+    } catch (error) {
+      res.status(500).send({ message: error.message });
+    }
+  },
 };
 
 export default newsController;
