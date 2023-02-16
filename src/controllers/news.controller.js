@@ -13,7 +13,7 @@ const newsController = {
         title,
         text,
         banner,
-        user: req.userId
+        user: req.userId,
       });
 
       res.status(201).send("New created");
@@ -24,7 +24,32 @@ const newsController = {
 
   findAllNews: async function (req, res) {
     try {
-      const news = await newsServices.findAllService();
+      let { limit, offset } = req.query;
+
+      limit = Number(limit);
+      offset = Number(offset);
+
+      if (!limit) {
+        limit = 5;
+      }
+      if (!offset) {
+        offset = 0;
+      }
+
+      const total = await newsServices.countNews();
+      const currentUrl = req.baseUrl;
+
+      const next = offset + limit;
+      const nextUrl =
+        next < total ? `${currentUrl}?limit=${limit}&offset=${next}` : null;
+
+      const previous = offset - limit < 0 ? null : offset - limit;
+      const previousUrl =
+        previous != null
+          ? `${currentUrl}?limit=${limit}&offset=${previous}`
+          : null;
+
+      const news = await newsServices.findAllService(limit, offset);
 
       if (news.length === 0) {
         return res
@@ -32,7 +57,24 @@ const newsController = {
           .send({ message: "There are no registered news" });
       }
 
-      res.send(news);
+      res.send({
+        nextUrl,
+        previousUrl,
+        limit,
+        offset,
+        total,
+        results: news.map((item) => ({
+          id: item._id,
+          title: item.title,
+          text: item.text,
+          banner: item.banner,
+          likes: item.likes,
+          comments: item.comments,
+          name: item.user.name,
+          username: item.user.username,
+          avatar: item.user.avatar,
+        })),
+      });
     } catch (error) {
       res.status(500).send({ message: error.message });
     }
