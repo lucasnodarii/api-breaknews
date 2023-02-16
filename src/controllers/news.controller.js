@@ -21,7 +21,6 @@ const newsController = {
       res.status(500).send({ message: error.message });
     }
   },
-
   findAllNews: async function (req, res) {
     try {
       let { limit, offset } = req.query;
@@ -79,7 +78,6 @@ const newsController = {
       res.status(500).send({ message: error.message });
     }
   },
-
   topNews: async function (req, res) {
     try {
       const news = await newsServices.topNewsService();
@@ -122,6 +120,33 @@ const newsController = {
           username: news.user.username,
           avatar: news.user.avatar,
         },
+      });
+    } catch (error) {
+      res.status(500).send({ message: error.message });
+    }
+  },
+  findByTitle: async function (req, res) {
+    try {
+      const { title } = req.query;
+      const news = await newsServices.findByTitleService(title);
+
+      if (news.length === 0) {
+        return res
+          .status(400)
+          .send({ message: "There are no news with this title" });
+      }
+      res.send({
+        results: news.map((item) => ({
+          id: item._id,
+          title: item.title,
+          text: item.text,
+          banner: item.banner,
+          likes: item.likes,
+          comments: item.comments,
+          name: item.user.name,
+          username: item.user.username,
+          avatar: item.user.avatar,
+        })),
       });
     } catch (error) {
       res.status(500).send({ message: error.message });

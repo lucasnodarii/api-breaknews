@@ -1,6 +1,6 @@
 import express from "express";
-import connectDatabase from "./src/database/db.js";
 import dotenv from "dotenv";
+import connectDatabase from "./src/database/db.js";
 import userRouter from "./src/routes/user.route.js";
 import authRouter from "./src/routes/auth.route.js";
 import newsRouter from "./src/routes/news.route.js";
