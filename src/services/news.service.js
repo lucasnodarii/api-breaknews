@@ -45,7 +45,25 @@ const newsServices = {
     );
   },
   deleteLikeNewsService: function (id, userId) {
-    return News.findOneAndUpdate({ _id: id }, { $pull: { likes: {userId} } });
+    return News.findOneAndUpdate({ _id: id }, { $pull: { likes: { userId } } });
+  },
+  addCommentService: function (idNews, comment, userId) {
+    const idComment = Math.floor(Date.now() * Math.random() * 100).toString(36);
+
+    return News.findByIdAndUpdate(
+      { _id: idNews },
+      {
+        $push: {
+          comments: { idComment, userId, comment, createdAt: new Date() },
+        },
+      }
+    );
+  },
+  deleteCommentService: function (idNews, idComment, userId) {
+    return News.findByIdAndUpdate(
+      { _id: idNews },
+      { $pull: { comments: { idComment, userId } } }
+    );
   },
 };
 
