@@ -5,29 +5,48 @@ const newsServices = {
     return News.create(body);
   },
   findAllService: function (limit, offset) {
-    return News.find().sort({_id: -1}).skip(offset).limit(limit).populate('user');
+    return News.find()
+      .sort({ _id: -1 })
+      .skip(offset)
+      .limit(limit)
+      .populate("user");
   },
-  countNewsService: function(){
+  countNewsService: function () {
     return News.countDocuments();
   },
-  topNewsService: function(){
-    return News.findOne().sort({_id: -1}).populate('user');
+  topNewsService: function () {
+    return News.findOne().sort({ _id: -1 }).populate("user");
   },
-  findByIdService: function(id){
-    return News.findById(id).populate('user');
+  findByIdService: function (id) {
+    return News.findById(id).populate("user");
   },
-  findByTitleService: function(title){
-    return News.find({title: {$regex: `${title || ""}`, $options: "i"}}).sort({_id: -1}).populate('user'); 
+  findByTitleService: function (title) {
+    return News.find({ title: { $regex: `${title || ""}`, $options: "i" } })
+      .sort({ _id: -1 })
+      .populate("user");
   },
-  findByUserService: function(id){
-    return News.find({user: id}).sort({_id: -1}).populate('user');
+  findByUserService: function (id) {
+    return News.find({ user: id }).sort({ _id: -1 }).populate("user");
   },
-  updateNewsService: function(id, title, text, banner){
-    return News.findOneAndUpdate({_id: id}, {title, text, banner}, {rawResult: true});
+  updateNewsService: function (id, title, text, banner) {
+    return News.findOneAndUpdate(
+      { _id: id },
+      { title, text, banner },
+      { rawResult: true }
+    );
   },
-  deleteNewsService: function(id){
-    return News.findByIdAndDelete({_id: id});
-  }
+  deleteNewsService: function (id) {
+    return News.findByIdAndDelete({ _id: id });
+  },
+  likeNewsService: function (id, userId) {
+    return News.findOneAndUpdate(
+      { _id: id, "likes.userId": { $nin: [userId] } },
+      { $push: { likes: { userId, createdAt: new Date() } } }
+    );
+  },
+  deleteLikeNewsService: function (id, userId) {
+    return News.findOneAndUpdate({ _id: id }, { $pull: { likes: {userId} } });
+  },
 };
 
 export default newsServices;

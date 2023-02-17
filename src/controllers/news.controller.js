@@ -216,7 +216,22 @@ const newsController = {
       res.send({ message: "Post successfully deleted" });
     } catch (error) {
       res.status(500).send({ message: error.message });
-      
+    }
+  },
+  likeNews: async function (req, res) {
+    try {
+      const { id } = req.params;
+      const userId = req.userId;
+
+      const newsLiked = await newsServices.likeNewsService(id, userId);
+      if (!newsLiked) {
+        await newsServices.deleteLikeNewsService(id, userId);
+        return res.status(200).send({ message: "Like successfully removed" });
+      }
+
+      res.send({ message: "Like successfully done" });
+    } catch (error) {
+      res.status(500).send({ message: error.message });
     }
   },
 };
