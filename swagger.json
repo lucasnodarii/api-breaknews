@@ -8,7 +8,11 @@
     },
     "version": "1.0.0"
   },
-  "servers": [
+  "servers": [    
+    {
+      "url": "https://api-breaking-news-kquq.onrender.com",
+      "description": "Render server"
+    },
     {
       "url": "http://localhost:3000",
       "description": "Local server"
