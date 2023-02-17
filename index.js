@@ -4,7 +4,7 @@ import connectDatabase from "./src/database/db.js";
 import userRouter from "./src/routes/user.route.js";
 import authRouter from "./src/routes/auth.route.js";
 import newsRouter from "./src/routes/news.route.js";
-import swaggerRouter from "./src/routes/swagger.router.js";
+import swaggerRouter from "./src/routes/swagger.router.cjs";
 
 dotenv.config();
 const app = express();
